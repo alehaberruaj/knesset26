@@ -324,7 +324,7 @@ function loadHash() {
 
 // ---------- Init ----------
 buildList();
-if (!loadHash()) PARTIES.forEach(p => (state.seats[p.id] = p.poll));
+loadHash();
 render();
 
 $('#loadPolls').onclick = () => { PARTIES.forEach(p => (state.seats[p.id] = p.poll)); render(); };
