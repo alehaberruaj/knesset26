@@ -261,7 +261,7 @@ async function drawCard(mode) {
 
   // Pie
   ctx.textAlign = 'center'; ctx.fillStyle = '#6f7fa8'; ctx.font = F(500, 26);
-  ctx.fillText(`¿Y tú qué pronosticas? · ${(location.host + location.pathname).replace(/\/$/, '') || 'knesset26'}`, W / 2, H - 40);
+  ctx.fillText(`¿Y tú qué pronosticas? · ${SITE_URL.replace('https://', '')}`, W / 2, H - 40);
 }
 
 let lastMode = 'gov';
@@ -287,7 +287,9 @@ async function download() {
 }
 
 // Link a la página limpia, para que quien lo recibe arme su propio pronóstico.
-const siteUrl = () => location.origin + location.pathname;
+const SITE_URL = 'https://knesset26.vercel.app';
+const siteUrl = () => SITE_URL;
+const myForecastUrl = () => SITE_URL + '/' + location.hash;
 
 function shareText() {
   const head = lastMode === 'gov'
@@ -361,7 +363,7 @@ $('#download').onclick = download;
 $('#share').onclick = share;
 $('#whatsapp').onclick = shareWhatsApp;
 $('#copyLink').onclick = async () => {
-  try { await navigator.clipboard.writeText(location.href); $('#copyLink').textContent = '¡Link copiado!'; }
-  catch { prompt('Copia este link:', location.href); }
+  try { await navigator.clipboard.writeText(myForecastUrl()); $('#copyLink').textContent = '¡Link copiado!'; }
+  catch { prompt('Copia este link:', myForecastUrl()); }
   setTimeout(() => ($('#copyLink').textContent = 'Copiar link'), 1800);
 };

@@ -13,5 +13,7 @@ Los datos de partidos y el promedio de encuestas están al principio de `app.js`
 
 ## Publicación
 
+Sitio: https://knesset26.vercel.app
+
 El workflow `.github/workflows/pages.yml` publica el sitio en GitHub Pages en cada push a `main`
 (activar en Settings → Pages → Source: GitHub Actions).
