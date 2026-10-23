@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knéset 26 · Mi pronóstico</title>
+<meta name="description" content="Armá tu pronóstico de las elecciones en Israel 2026: bancas por partido, coalición de gobierno o nuevas elecciones. Descargalo y compartilo.">
+<meta property="og:title" content="Knéset 26 · Mi pronóstico">
+<meta property="og:description" content="¿Quién llega a 61? Armá tu pronóstico de las elecciones en Israel y compartilo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <p class="eyebrow">Elecciones en Israel · 27 de octubre de 2026</p>
+  <h1>¿Quién llega a <span class="accent">61</span>?</h1>
+  <p class="lead">Repartí las 120 bancas de la Knéset, marcá qué partidos forman la coalición de gobierno — o pronosticá que vamos a elecciones otra vez. Después descargá tu pronóstico y compartilo.</p>
+</header>
+
+<div class="summary" id="summary">
+  <canvas id="mini" width="320" height="170" aria-hidden="true"></canvas>
+  <div class="counters">
+    <div class="counter" id="totalBox"><span class="num" id="total">0</span><span class="of">/120</span><span class="lbl">bancas repartidas</span></div>
+    <div class="counter" id="coalBox"><span class="num" id="coal">0</span><span class="of">/61</span><span class="lbl">coalición</span></div>
+  </div>
+</div>
+
+<main>
+  <div class="toolbar">
+    <button class="ghost" id="loadPolls">Cargar promedio de encuestas</button>
+    <button class="ghost" id="clearAll">Empezar de cero</button>
+  </div>
+  <p class="hint">Umbral electoral: 3,25% — un partido saca 0 o al menos 4 bancas. Tocá <b>Coalición</b> para sumar un partido al gobierno.</p>
+
+  <ul class="parties" id="parties"></ul>
+
+  <section class="finish">
+    <label class="name">Tu nombre (opcional, aparece en la imagen)
+      <input id="author" maxlength="30" placeholder="Ej: Ale">
+    </label>
+    <div class="pm" id="pmWrap" hidden>
+      <label>Primer ministro/a
+        <select id="pm"></select>
+      </label>
+    </div>
+    <p class="status" id="status"></p>
+    <div class="actions">
+      <button class="primary" id="goGov" disabled>Pronosticar este gobierno</button>
+      <button class="secondary" id="goElections" disabled>Pronosticar nuevas elecciones 🗳️</button>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="modal" hidden>
+  <div class="sheet">
+    <button class="close" id="closeModal" aria-label="Cerrar">×</button>
+    <canvas id="card" width="1080" height="1350"></canvas>
+    <div class="actions">
+      <button class="primary" id="download">Descargar imagen</button>
+      <button class="secondary" id="share">Compartir</button>
+      <button class="ghost" id="copyLink">Copiar link</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Encuestas: promedio de sondeos de octubre 2026 (Middle East Forum Poll of Polls). Sitio no partidario, hecho para jugar y debatir.
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
