@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <header class="hero">
@@ -57,10 +57,12 @@
   <div class="sheet">
     <button class="close" id="closeModal" aria-label="Cerrar">×</button>
     <canvas id="card" width="1080" height="1350"></canvas>
+    <button class="whatsapp" id="whatsapp">Compartir por WhatsApp</button>
+    <p class="note" id="shareNote" hidden>Se descargó la imagen: adjuntala en el chat de WhatsApp que se abrió. El mensaje ya incluye el link para que armen su pronóstico.</p>
     <div class="actions">
       <button class="primary" id="download">Descargar imagen</button>
-      <button class="secondary" id="share">Compartir</button>
-      <button class="ghost" id="copyLink">Copiar link</button>
+      <button class="secondary" id="share">Otras apps</button>
+      <button class="ghost" id="copyLink">Copiar link de mi pronóstico</button>
     </div>
   </div>
 </div>
@@ -68,6 +70,6 @@
 <footer>
   Encuestas: promedio de sondeos de octubre 2026 (Middle East Forum Poll of Polls). Sitio no partidario, hecho para jugar y debatir.
 </footer>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

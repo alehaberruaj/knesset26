@@ -261,13 +261,14 @@ async function drawCard(mode) {
 
   // Pie
   ctx.textAlign = 'center'; ctx.fillStyle = '#6f7fa8'; ctx.font = F(500, 26);
-  ctx.fillText(`¿Y vos qué pronosticás? · ${location.host || 'knesset26'}`, W / 2, H - 40);
+  ctx.fillText(`¿Y vos qué pronosticás? · ${(location.host + location.pathname).replace(/\/$/, '') || 'knesset26'}`, W / 2, H - 40);
 }
 
 let lastMode = 'gov';
 async function openCard(mode) {
   lastMode = mode;
   await drawCard(mode);
+  $('#shareNote').hidden = true;
   $('#modal').hidden = false;
 }
 
@@ -285,17 +286,39 @@ async function download() {
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
 
-async function share() {
-  const blob = await cardBlob();
-  const file = new File([blob], fileName(), { type: 'image/png' });
-  const text = lastMode === 'gov'
-    ? `Mi pronóstico para la Knéset 26: gobierno de ${coalSeats()} bancas con ${byId[state.pm].leader} como PM. ¿Y el tuyo?`
-    : 'Mi pronóstico para la Knéset 26: ¡nuevas elecciones! ¿Y el tuyo?';
+// Link a la página limpia, para que quien lo recibe arme su propio pronóstico.
+const siteUrl = () => location.origin + location.pathname;
+
+function shareText() {
+  const head = lastMode === 'gov'
+    ? `Mi pronóstico para la Knéset 26: gobierno de ${coalSeats()} bancas con ${byId[state.pm].leader} como primer ministro.`
+    : 'Mi pronóstico para la Knéset 26: ¡nuevas elecciones! Nadie llega a 61.';
+  return `${head}\n¿Y vos qué pronosticás? Armá el tuyo acá: ${siteUrl()}`;
+}
+
+async function cardFile() {
+  return new File([await cardBlob()], fileName(), { type: 'image/png' });
+}
+
+// Celular: menú de compartir con la imagen y el texto (elegís WhatsApp).
+// Compu: descarga la imagen y abre WhatsApp con el texto y el link.
+async function shareWhatsApp() {
+  const file = await cardFile();
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file], text: `${text} ${location.href}` }); } catch {}
+    try { await navigator.share({ files: [file], text: shareText() }); } catch {}
+    return;
+  }
+  await download();
+  window.open(`https://wa.me/?text=${encodeURIComponent(shareText())}`, '_blank');
+  $('#shareNote').hidden = false;
+}
+
+async function share() {
+  const file = await cardFile();
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], text: shareText() }); } catch {}
   } else {
     await download();
-    window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${location.href}`)}`, '_blank');
   }
 }
 
@@ -336,6 +359,7 @@ $('#closeModal').onclick = () => ($('#modal').hidden = true);
 $('#modal').onclick = e => { if (e.target.id === 'modal') $('#modal').hidden = true; };
 $('#download').onclick = download;
 $('#share').onclick = share;
+$('#whatsapp').onclick = shareWhatsApp;
 $('#copyLink').onclick = async () => {
   try { await navigator.clipboard.writeText(location.href); $('#copyLink').textContent = '¡Link copiado!'; }
   catch { prompt('Copiá este link:', location.href); }
