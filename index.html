@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 <header class="hero">
@@ -40,9 +40,10 @@
     <label class="name">Tu nombre (opcional, aparece en la imagen)
       <input id="author" maxlength="30" placeholder="Ej: Biniamin">
     </label>
-    <div class="pm" id="pmWrap" hidden>
+    <div class="pm" id="pmWrap">
       <label>Primer ministro/a
-        <select id="pm"></select>
+        <select id="pm" disabled></select>
+        <span class="pmhint" id="pmHint">Se habilita cuando tu coalición llegue a 61 bancas.</span>
       </label>
     </div>
     <p class="status" id="status"></p>
@@ -70,6 +71,6 @@
 <footer>
   Encuestas: promedio de sondeos de octubre 2026 (Middle East Forum Poll of Polls). Sitio no partidario, hecho para jugar y debatir.
 </footer>
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

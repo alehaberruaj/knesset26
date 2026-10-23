@@ -106,7 +106,11 @@ function render() {
   pmSel.innerHTML = coal.map(id => `<option value="${id}">${byId[id].leader} (${byId[id].name})</option>`).join('');
   if (!state.coalition.has(state.pm)) state.pm = coal[0] || null;
   if (state.pm) pmSel.value = state.pm;
-  $('#pmWrap').hidden = coal.length === 0;
+
+  // El primer ministro solo se elige con una coalición de 61 o más.
+  const hasGov = c >= MAJORITY;
+  pmSel.disabled = !hasGov;
+  $('#pmHint').hidden = hasGov;
 
   let msg, ok = t === TOTAL;
   if (t < TOTAL) msg = `Te faltan repartir ${TOTAL - t} bancas.`;
