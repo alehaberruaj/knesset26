@@ -5,7 +5,7 @@ const PARTIES = [
   { id: 'beyahad', name: 'Beyajad (Juntos)',        leader: 'Naftali Bennett',    color: '#2b3a8f', poll: 13 },
   { id: 'dems',    name: 'Los Demócratas',          leader: 'Yair Golan',         color: '#e0313b', poll: 10 },
   { id: 'otzma',   name: 'Otzmá Yehudit',           leader: 'Itamar Ben-Gvir',    color: '#f28c18', poll: 8 },
-  { id: 'shas',    name: 'Shas',                    leader: 'Aryeh Deri',         color: '#1b1b1b', poll: 8 },
+  { id: 'shas',    name: 'Shas',                    leader: 'Aryeh Deri',         color: '#5b6577', poll: 8 },
   { id: 'utj',     name: 'Yahadut HaTorá',          leader: 'Yaakov Asher',       color: '#6b4f2a', poll: 8 },
   { id: 'ib',      name: 'Israel Beitenu',          leader: 'Avigdor Liberman',   color: '#5bc0eb', poll: 8 },
   { id: 'joint',   name: 'Lista Conjunta',          leader: 'Yousef Jabareen',    color: '#2e9e44', poll: 8 },
@@ -32,6 +32,13 @@ function snap(v, prev) {
   return v;
 }
 
+// Nunca más de 120 en total: el máximo de un partido es lo suyo más lo que queda libre.
+function clampSeats(id, v) {
+  const cur = state.seats[id], max = cur + TOTAL - total();
+  const next = snap(Math.min(v, max), cur);
+  return next <= max ? next : cur;
+}
+
 // ---------- UI ----------
 function buildList() {
   const ul = $('#parties');
@@ -53,7 +60,7 @@ function buildList() {
         <input type="range" min="0" max="${MAX_SEATS}" value="0" aria-label="Bancas de ${p.name}">
       </div>
       <button class="coalbtn">+ Coalición</button>`;
-    const set = v => { state.seats[p.id] = snap(v, state.seats[p.id]); render(); };
+    const set = v => { state.seats[p.id] = clampSeats(p.id, v); render(); };
     li.querySelector('.minus').onclick = () => {
       const s = state.seats[p.id];
       set(s === MIN_SEATS ? 0 : s - 1);
@@ -84,12 +91,13 @@ function render() {
     const cb = li.querySelector('.coalbtn');
     cb.textContent = inC ? '✓ En la coalición' : '+ Coalición';
     cb.disabled = !s;
+    li.querySelector('.plus').disabled = clampSeats(id, s === 0 ? MIN_SEATS : s + 1) === s;
   }
 
   const t = total(), c = coalSeats();
   $('#total').textContent = t;
   $('#coal').textContent = c;
-  $('#totalBox').className = 'counter ' + (t === TOTAL ? 'ok' : t > TOTAL ? 'bad' : '');
+  $('#totalBox').className = 'counter ' + (t === TOTAL ? 'ok' : '');
   $('#coalBox').className = 'counter ' + (c >= MAJORITY ? 'ok' : '');
 
   // Primer ministro: por defecto, el líder del partido más grande de la coalición.
@@ -102,7 +110,6 @@ function render() {
 
   let msg, ok = t === TOTAL;
   if (t < TOTAL) msg = `Te faltan repartir ${TOTAL - t} bancas.`;
-  else if (t > TOTAL) msg = `Te pasaste por ${t - TOTAL} bancas: la Knéset tiene 120.`;
   else if (c >= MAJORITY) msg = `✅ Tu coalición suma ${c} bancas: hay gobierno.`;
   else msg = `Tu coalición suma ${c}: le faltan ${MAJORITY - c} para llegar a 61. Sumá socios o pronosticá nuevas elecciones.`;
   $('#status').textContent = msg;
@@ -162,7 +169,6 @@ function drawHemicycle(ctx, cx, cy, R, dot, { dimOpposition = false, empty = '#2
     ctx.beginPath();
     ctx.arc(cx + p.x * R, cy + p.y * R, dot, 0, Math.PI * 2);
     ctx.fill();
-    if (col && col.c === '#1b1b1b') { ctx.strokeStyle = '#8a95b5'; ctx.lineWidth = dot * 0.18; ctx.stroke(); }
   });
   ctx.globalAlpha = 1;
 }
@@ -309,7 +315,7 @@ function loadHash() {
   if (!h.has('b')) return false;
   for (const pair of h.get('b').split(',')) {
     const [id, n] = pair.split('.');
-    if (byId[id]) state.seats[id] = snap(+n || 0, 0);
+    if (byId[id]) state.seats[id] = clampSeats(id, +n || 0);
   }
   for (const id of (h.get('c') || '').split(',')) if (byId[id] && state.seats[id]) state.coalition.add(id);
   if (byId[h.get('pm')]) state.pm = h.get('pm');

@@ -27,19 +27,23 @@ main{max-width:860px;margin:0 auto;padding:16px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .hint{color:var(--muted);font-size:.9rem;text-align:center}
 .parties{list-style:none;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.party{background:var(--panel);border-radius:16px;padding:12px 14px;border-left:6px solid var(--c);display:grid;gap:8px;
+.party{background:var(--panel);border-radius:16px;padding:12px 14px;border-left:6px solid var(--c);display:grid;gap:10px;min-width:0;
   transition:background .15s, box-shadow .15s}
 .party.in{background:var(--panel2);box-shadow:0 0 0 2px var(--c) inset}
-.party .top{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.party .top{display:flex;justify-content:space-between;gap:8px;align-items:start;min-width:0}
+.party .top > div{min-width:0}
 .party h3{margin:0;font-size:1.05rem}
 .party .leader{color:var(--muted);font-size:.8rem}
-.party .poll{color:var(--muted);font-size:.75rem;white-space:nowrap}
-.stepper{display:flex;align-items:center;gap:8px}
-.stepper button{width:40px;height:40px;padding:0;background:var(--panel2);color:var(--text);font-size:1.3rem;border:1px solid var(--line)}
+.party .poll{color:var(--muted);font-size:.75rem;white-space:nowrap;flex-shrink:0}
+.stepper{display:flex;align-items:center;gap:8px;min-width:0}
+.stepper button{flex-shrink:0;width:40px;height:40px;padding:0;background:var(--panel2);color:var(--text);font-size:1.3rem;border:1px solid var(--line)}
 .stepper .seats{min-width:2.2ch;text-align:center;font-size:1.6rem;font-weight:900}
-.stepper input[type=range]{flex:1;accent-color:var(--c)}
-.coalbtn{background:transparent;border:1px dashed var(--line);color:var(--muted);padding:.5em}
-.party.in .coalbtn{background:var(--c);color:#fff;border:1px solid var(--c);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.stepper input[type=range]{flex:1;min-width:0;width:100%;margin:0;accent-color:var(--c)}
+.coalbtn{width:100%;background:color-mix(in srgb,var(--c) 18%,transparent);border:2px solid var(--c);color:var(--text);
+  padding:.65em;font-size:1rem;letter-spacing:.02em}
+.coalbtn:not(:disabled):hover{background:color-mix(in srgb,var(--c) 35%,transparent)}
+.coalbtn:disabled{border-style:dashed;background:transparent}
+.party.in .coalbtn{background:var(--c);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6);box-shadow:0 4px 14px color-mix(in srgb,var(--c) 45%,transparent)}
 .finish{background:var(--panel);border-radius:16px;padding:16px;margin-top:16px;display:grid;gap:12px}
 .finish label{display:grid;gap:4px;color:var(--muted);font-size:.9rem}
 .finish input,.finish select{font:inherit;padding:.6em;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
