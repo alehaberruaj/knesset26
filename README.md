@@ -2,10 +2,10 @@
 
 Sitio para pronosticar las elecciones en Israel del 27 de octubre de 2026:
 
-- Repartí las 120 bancas entre los partidos (umbral: 0 o al menos 4 bancas).
-- Marcá qué partidos forman la coalición. Si suman 61 o más, elegís primer ministro/a y pronosticás el gobierno.
+- Reparte las 120 bancas entre los partidos (umbral: 0 o al menos 4 bancas).
+- Marca qué partidos forman la coalición. Si suman 61 o más, eliges primer ministro/a y pronosticas el gobierno.
 - Si no, el botón **Pronosticar nuevas elecciones** genera ese escenario.
-- Descargá la imagen (1080×1350) o compartila; el link guarda tu pronóstico.
+- Descarga la imagen (1080×1350) o compártela; el link guarda tu pronóstico.
 
 Es HTML/CSS/JS estático, sin dependencias. Para probarlo localmente: `python3 -m http.server` y abrir http://localhost:8000.
 

@@ -111,7 +111,7 @@ function render() {
   let msg, ok = t === TOTAL;
   if (t < TOTAL) msg = `Te faltan repartir ${TOTAL - t} bancas.`;
   else if (c >= MAJORITY) msg = `✅ Tu coalición suma ${c} bancas: hay gobierno.`;
-  else msg = `Tu coalición suma ${c}: le faltan ${MAJORITY - c} para llegar a 61. Sumá socios o pronosticá nuevas elecciones.`;
+  else msg = `Tu coalición suma ${c}: le faltan ${MAJORITY - c} para llegar a 61. Suma socios o pronostica nuevas elecciones.`;
   $('#status').textContent = msg;
   $('#goGov').disabled = !(ok && c >= MAJORITY);
   $('#goElections').disabled = !(ok && c < MAJORITY);
@@ -261,7 +261,7 @@ async function drawCard(mode) {
 
   // Pie
   ctx.textAlign = 'center'; ctx.fillStyle = '#6f7fa8'; ctx.font = F(500, 26);
-  ctx.fillText(`¿Y vos qué pronosticás? · ${(location.host + location.pathname).replace(/\/$/, '') || 'knesset26'}`, W / 2, H - 40);
+  ctx.fillText(`¿Y tú qué pronosticas? · ${(location.host + location.pathname).replace(/\/$/, '') || 'knesset26'}`, W / 2, H - 40);
 }
 
 let lastMode = 'gov';
@@ -293,14 +293,14 @@ function shareText() {
   const head = lastMode === 'gov'
     ? `Mi pronóstico para la Knéset 26: gobierno de ${coalSeats()} bancas con ${byId[state.pm].leader} como primer ministro.`
     : 'Mi pronóstico para la Knéset 26: ¡nuevas elecciones! Nadie llega a 61.';
-  return `${head}\n¿Y vos qué pronosticás? Armá el tuyo acá: ${siteUrl()}`;
+  return `${head}\n¿Y tú qué pronosticas? Arma el tuyo aquí: ${siteUrl()}`;
 }
 
 async function cardFile() {
   return new File([await cardBlob()], fileName(), { type: 'image/png' });
 }
 
-// Celular: menú de compartir con la imagen y el texto (elegís WhatsApp).
+// Celular: menú de compartir con la imagen y el texto (eliges WhatsApp).
 // Compu: descarga la imagen y abre WhatsApp con el texto y el link.
 async function shareWhatsApp() {
   const file = await cardFile();
@@ -362,6 +362,6 @@ $('#share').onclick = share;
 $('#whatsapp').onclick = shareWhatsApp;
 $('#copyLink').onclick = async () => {
   try { await navigator.clipboard.writeText(location.href); $('#copyLink').textContent = '¡Link copiado!'; }
-  catch { prompt('Copiá este link:', location.href); }
+  catch { prompt('Copia este link:', location.href); }
   setTimeout(() => ($('#copyLink').textContent = 'Copiar link'), 1800);
 };
