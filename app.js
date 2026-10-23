@@ -114,7 +114,7 @@ function render() {
   else msg = `Tu coalición suma ${c}: le faltan ${MAJORITY - c} para llegar a 61. Sumá socios o pronosticá nuevas elecciones.`;
   $('#status').textContent = msg;
   $('#goGov').disabled = !(ok && c >= MAJORITY);
-  $('#goElections').disabled = !ok;
+  $('#goElections').disabled = !(ok && c < MAJORITY);
 
   drawMini();
   saveHash();
